@@ -2,33 +2,29 @@
 use strict;
 use warnings;
 use Getopt::Long;
-use POSIX qw(setlocale strftime mktime LC_ALL);
 
 my $PATH = './log';
 GetOptions(
-  'p:s' => \$PATH,
-		);
+    'p:s' => \$PATH,
+    );
 
 my $FP = undef;
+my $INODE = undef;
 my $FNAME = '';
 my $prev = 0;
 
 sub fp {
     my $now = time();
-    if ( ($now - $prev) > 1 ) {
-        $prev = $now;
+    my ($dev, $inode) = stat("$PATH");
+    unless ( $inode && $INODE && $inode eq $INODE ) {
         if ( $FP ) {
             $FP->flush();
-        }
-        my $fname = strftime "$PATH.%Y%m%d", localtime( $now );
-        if ( $FNAME eq $fname ) {
-            return;
-        }
-        $FNAME = $fname;
-        if ( $FP ) {
             close($FP);
         }
-        open($FP, ">>$fname");
+        open($FP, ">>$PATH");
+        if ( $FP ) {
+            (my $dev, $INODE) = stat($FP);
+        }
     }
 }
 

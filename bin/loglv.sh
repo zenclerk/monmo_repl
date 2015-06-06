@@ -3,7 +3,7 @@ CURDIR=`dirname $0`
 source $CURDIR/../monmo.env
 
 usage (){
-cat<<USAGE
+    cat<<USAGE
 Usage :
   repl.sh [options]
 
@@ -18,20 +18,20 @@ Example :
     bin/repl.sh -f -c conf/settings.js
 
 USAGE
-  exit $1
+    exit $1
 }
 NAME='var NAME = null;'
 CONFIG=''
 
 while getopts ':hc:n:l:' OPTION; do
-  echo $OPTION $OPTARG
-  case $OPTION in
-    h|--help)          usage 0 ;;
-    c|--config)        CONFIG="${OPTARG}";;
-    n|--name)          NAME="var NAME = '${OPTARG}';";;
-    l|--loglv)         LV="var LV = ${OPTARG};";;
-    --) break;;
-  esac
+    echo $OPTION $OPTARG
+    case $OPTION in
+        h|--help)          usage 0 ;;
+        c|--config)        CONFIG="${OPTARG}";;
+        n|--name)          NAME="var NAME = '${OPTARG}';";;
+        l|--loglv)         LV="var LV = ${OPTARG};";;
+        --) break;;
+    esac
 done
 
 ${MONGO_SHELL} --nodb --quiet --eval "${NAME}${LV}" $CONFIG $CURDIR/../lib/monmo-repl.js $CURDIR/../lib/loglv.js &
