@@ -39,4 +39,4 @@ QUIT=
 #
 PIDS=''
 
-${MONGO_SHELL} --nodb --quiet --eval "${FORCE_TAIL}${DRY_RUN}" $CONFIG $CURDIR/../extras/* $CURDIR/../lib/monmo-repl.js $CURDIR/../lib/main.js
+${MONGO_SHELL} --nodb --quiet --eval "${FORCE_TAIL}${DRY_RUN}" $CONFIG $CURDIR/../extras/* $CURDIR/../lib/util.js $CURDIR/../lib/replset.js $CURDIR/../lib/monmo-repl.js $CURDIR/../lib/main.js
